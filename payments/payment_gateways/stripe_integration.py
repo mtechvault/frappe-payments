@@ -16,7 +16,7 @@ def create_stripe_subscription(gateway_controller, data):
 
 	try:
 		stripe_settings.integration_request = create_request_log(stripe_settings.data, "Host", "Stripe")
-		stripe_settings.payment_plans = frappe.get_doc(
+		stripe_settings.subscription_plans = frappe.get_doc(
 			"Payment Request", stripe_settings.data.reference_docname
 		).subscription_plans
 		return create_subscription_on_stripe(stripe_settings)
@@ -36,9 +36,9 @@ def create_stripe_subscription(gateway_controller, data):
 
 def create_subscription_on_stripe(stripe_settings):
 	items = []
-	for payment_plan in stripe_settings.payment_plans:
-		plan = frappe.db.get_value("Subscription Plan", payment_plan.plan, "product_price_id")
-		items.append({"price": plan, "quantity": payment_plan.qty})
+	for subscription_plan in stripe_settings.subscription_plans:
+		plan = frappe.db.get_value("Subscription Plan", subscription_plan.plan, "product_price_id")
+		items.append({"price": plan, "quantity": subscription_plan.qty})
 
 	try:
 		customer = stripe.Customer.create(
