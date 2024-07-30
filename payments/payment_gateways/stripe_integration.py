@@ -37,7 +37,8 @@ def create_stripe_subscription(gateway_controller, data):
 def create_subscription_on_stripe(stripe_settings):
 	items = []
 	for subscription_plan in stripe_settings.subscription_plans:
-		items.append({"price": subscription_plan.plan.product_price_id, "quantity": subscription_plan.qty})
+		priceid = frappe.db.get_value('Subscription Plan', plan.plan, 'product_price_id')
+		items.append({"price": priceid, "quantity": subscription_plan.qty})
 
 	try:
 		customer = stripe.Customer.create(
