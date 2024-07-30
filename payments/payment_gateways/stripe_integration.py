@@ -36,10 +36,8 @@ def create_stripe_subscription(gateway_controller, data):
 
 def create_subscription_on_stripe(stripe_settings):
 	items = []
-	# for subscription_plan in stripe_settings.subscription_plans:
-		# items.append({"price": plan, "quantity": subscription_plan.qty})
-	
-	items.append({"price": stripe_settings.data.amount, "quantity": 1 })
+	for subscription_plan in stripe_settings.subscription_plans:
+		items.append({"price": subscription_plan.plan, "quantity": subscription_plan.qty})
 
 	try:
 		customer = stripe.Customer.create(
