@@ -43,7 +43,7 @@ def get_context(context):
 			subscription_plan = frappe.db.get_value(
 				context.reference_doctype, context.reference_docname, "subscription_plan"
 			)
-			recurrence = frappe.db.get_value("Payment Plan", subscription_plan, "recurrence")
+			recurrence = frappe.db.get_value("Subscription Plan", subscription_plan, "recurrence")
 
 			context["amount"] = context["amount"] + " " + _(recurrence)
 
