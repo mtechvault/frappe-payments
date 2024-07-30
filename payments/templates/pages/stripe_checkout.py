@@ -41,7 +41,7 @@ def get_context(context):
 
 		if is_a_subscription(context.reference_doctype, context.reference_docname):
 			subscription_plan = frappe.db.get_value(
-				context.reference_doctype, context.reference_docname, "subscription_plan"
+				context.reference_doctype, context.reference_docname, "subscription_plans.plan"
 			)
 			intervalCount = frappe.db.get_value("Subscription Plan", subscription_plan, "billing_interval_count")
 			intervalType = frappe.db.get_value("Subscription Plan", subscription_plan, "billing_interval")
