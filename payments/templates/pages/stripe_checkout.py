@@ -43,7 +43,22 @@ def get_context(context):
 			subscription_plan = frappe.db.get_value(
 				context.reference_doctype, context.reference_docname, "subscription_plan"
 			)
-			recurrence = frappe.db.get_value("Subscription Plan", subscription_plan, "recurrence")
+			intervalCount = frappe.db.get_value("Subscription Plan", subscription_plan, "billing_interval_count")
+			intervalType = frappe.db.get_value("Subscription Plan", subscription_plan, "billing_interval")
+
+			recurrence = "Monthly"
+
+			if intervalCount == 1 and intervalType == "Week":
+				recurrence = "Weekly"
+			elif intervalCount == 1 and intervalType == "Day":
+				recurrence = "Daily"
+			elif intervalType == "Month":
+				if intervalCount == 3:
+					recurrence = "Every 3 Months"
+				elif intervalCount == 6:
+					recurrence = "Every 6 Months"
+			elif intervalCount == 1 and intervalType == "Year" or intervalCount == 12 and intervalType == "Month":
+				recurrence = "Yearly"
 
 			context["amount"] = context["amount"] + " " + _(recurrence)
 
