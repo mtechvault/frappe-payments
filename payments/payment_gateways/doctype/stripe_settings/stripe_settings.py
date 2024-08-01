@@ -267,7 +267,7 @@ class StripeSettings(Document):
 
 		if redirect_to and "?" in redirect_url:
 			redirect_url += "&" + urlencode({"redirect_to": redirect_to})
-		else:
+		elif redirect_to:
 			redirect_url += "?" + urlencode({"redirect_to": redirect_to})
 
 		if redirect_message:
